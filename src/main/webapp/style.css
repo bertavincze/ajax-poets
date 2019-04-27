@@ -9,3 +9,6 @@
 .hidden {
     display: none;
 }
+#poems-content li {
+    cursor: pointer;
+}

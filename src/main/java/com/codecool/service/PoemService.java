@@ -11,4 +11,6 @@ public interface PoemService {
     List<Poem> getPoems(String id) throws SQLException;
 
     Poem getPoem(String id) throws SQLException, ServiceException;
+
+    Poem findByTitle(String title) throws SQLException;
 }

@@ -20,7 +20,7 @@ public final class DatabasePoemDao extends AbstractDao implements PoemDao {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     poems.add(fetchPoem(resultSet));
                 }
             }
@@ -33,6 +33,20 @@ public final class DatabasePoemDao extends AbstractDao implements PoemDao {
         String sql = "SELECT id, title, content FROM poems WHERE poet_id = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return fetchPoem(resultSet);
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Poem findByTitle(String title) throws SQLException {
+        String sql = "SELECT id, title, content, poet_id FROM poems WHERE title = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, title);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return fetchPoem(resultSet);

@@ -31,4 +31,9 @@ public final class SimplePoemService implements PoemService {
             throw new ServiceException(ex.getMessage());
         }
     }
+
+    @Override
+    public Poem findByTitle(String title) throws SQLException {
+        return poemDao.findByTitle(title);
+    }
 }

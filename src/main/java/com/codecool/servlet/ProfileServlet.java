@@ -2,11 +2,9 @@ package com.codecool.servlet;
 
 import com.codecool.dao.PoemDao;
 import com.codecool.dao.database.DatabasePoemDao;
-import com.codecool.dto.PoemDto;
 import com.codecool.model.Poem;
 import com.codecool.model.Poet;
 import com.codecool.service.PoemService;
-import com.codecool.service.exception.ServiceException;
 import com.codecool.service.simple.SimplePoemService;
 
 import javax.servlet.ServletException;
@@ -26,11 +24,10 @@ public final class ProfileServlet extends AbstractServlet {
         try (Connection connection = getConnection(req.getServletContext())) {
             PoemDao poemDao = new DatabasePoemDao(connection);
             PoemService poemService = new SimplePoemService(poemDao);
-            Poet poet = (Poet) req.getSession().getAttribute("poet");
+            Poet poet = (Poet) req.getSession(false).getAttribute("poet");
             List<Poem> poems = poemService.getPoems(String.valueOf(poet.getId()));
 
-            PoemDto poemDto = new PoemDto(poet, poems);
-            sendMessage(resp, HttpServletResponse.SC_OK, poemDto);
+            sendMessage(resp, HttpServletResponse.SC_OK, poems);
         } catch (SQLException ex) {
             handleSqlError(resp, ex);
         }
