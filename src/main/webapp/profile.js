@@ -1,5 +1,25 @@
+function onSearchPoem() {
+    const searchFormEl = document.forms['search-form'];
+    const textEl = searchFormEl.querySelector('input[name="search"]').value;
+
+    const poemContentEl = document.getElementById('poem-content-p').textContent;
+
+    const regex = new RegExp(textEl, 'g');
+    const count = (poemContentEl.match(regex) || []).length;
+
+    const searchDivEl = document.getElementById('search-div');
+    const pEl = document.createElement('p');
+    pEl.textContent = 'There are ' + count + ' occurrence(s) of "' + textEl + '".';
+
+    while (searchDivEl.childNodes.length >= 4) {
+        searchDivEl.removeChild(searchDivEl.lastChild);
+    }
+    searchDivEl.appendChild(pEl);
+}
+
 function showPoemContent(poem) {
     const pEl = document.createElement('p');
+    pEl.setAttribute('id', 'poem-content-p');
     pEl.innerHTML = poem.content;
     return pEl;
 }
@@ -7,13 +27,17 @@ function showPoemContent(poem) {
 function onPoemContentLoad(poem) {
     const poemLiEl = document.getElementById(poem.id);
     const poemUlEl = document.getElementById('poems');
-    debugger;
     for (let i = 0; i < poemUlEl.childNodes.length; i++) {
         if (poemUlEl.childNodes[i].childNodes.length > 1) {
             poemUlEl.childNodes[i].removeChild(poemUlEl.childNodes[i].lastChild);
         }
     }
     poemLiEl.appendChild(showPoemContent(poem));
+
+    const searchDivEl = document.getElementById('search-div');
+    searchDivEl.style.display = 'block';
+    const searchButtonEl = document.getElementById('search-button');
+    searchButtonEl.addEventListener('click', onSearchPoem);
 }
 
 function onPoemContentResponse() {

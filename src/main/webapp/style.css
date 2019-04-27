@@ -9,6 +9,11 @@
 .hidden {
     display: none;
 }
+
 #poems-content li {
     cursor: pointer;
+}
+
+input[type="search"] {
+  width: 200px;
 }

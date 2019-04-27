@@ -34,8 +34,16 @@
 </div>
 <div id="profile-content" class="hidden content">
     <h1>Profile</h1>
+
     <p>Name: <span id="user-name"></span></p>
     <h2>Poems</h2>
+    <div id="search-div" class="hidden content">
+        <form id="search-form" onsubmit="return false;">
+          Search in this poem:<br>
+          <input type="search" name="search">
+          <button id="search-button">Search</button>
+        </form>
+    </div>
     <div id="poems-content" class="hidden content"></div>
 </div>
 <div id="back-to-profile-content" class="hidden content">
